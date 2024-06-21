@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:background="@drawable/bg_lr">
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="204dp"
+        android:fontFamily="@font/aclonica"
+        android:text="Iniciar Sesion"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/loginCorreo"
+        android:layout_width="317dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/edit_text"
+        android:drawableLeft="@drawable/correo"
+        android:hint="Correo electrónico"
+        android:inputType="textEmailAddress"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login" />
+
+    <EditText
+        android:id="@+id/loginContraseña"
+        android:layout_width="317dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/edit_text"
+        android:drawableLeft="@drawable/password"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginCorreo" />
+
+
+    <Button
+        android:id="@+id/btn_iniciar"
+        android:layout_width="166dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/btn"
+        android:fontFamily="@font/aclonica"
+        android:onClick="login"
+        android:padding="15dp"
+        android:text="Iniciar"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginContraseña"
+        app:layout_constraintWidth_percent=".4" />
+
+    <TextView
+        android:id="@+id/direccionregistro"
+        android:layout_width="169dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:text="¿Ya tienes una cuenta?  "
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_registrarse"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_iniciar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_registrarse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="68dp"
+        android:text="Registrarse"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:onClick="register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_iniciar" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
