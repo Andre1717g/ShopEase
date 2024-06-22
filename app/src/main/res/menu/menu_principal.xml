@@ -17,12 +17,6 @@
         />
 
     <item
-        android:id="@+id/buscar"
-        android:title="Buscar"
-        android:paddingTop="10dp"
-        android:icon="@drawable/buscar"
-        />
-    <item
         android:id="@+id/categoria"
         android:title="Categoria"
         android:paddingTop="10dp"
