@@ -2,34 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home"
-        android:title="Home"
+        android:title="Inicio"
         android:layout_marginBottom="16dp"
-        android:icon="@drawable/home"
-        />
-
-
-
+        android:icon="@drawable/home" />
     <item
         android:id="@+id/carrito"
         android:title="Carrito"
         android:paddingTop="10dp"
-        android:icon="@drawable/carrito"
-        />
-
+        android:icon="@drawable/carrito" />
     <item
         android:id="@+id/categoria"
-        android:title="Categoria"
+        android:title="Categoría"
         android:paddingTop="10dp"
-        android:icon="@drawable/categoria"
-        />
+        android:icon="@drawable/categoria" />
     <item
         android:id="@+id/perfil"
         android:title="Perfil"
         android:paddingTop="10dp"
-        android:icon="@drawable/usuario"
-        />
-
-
-
-
+        android:icon="@drawable/usuario" />
 </menu>
