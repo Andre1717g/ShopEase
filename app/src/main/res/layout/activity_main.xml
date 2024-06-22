@@ -7,13 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/BNavigation"
+        style="@style/BottomNavigationViewCenteredItem"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="4dp"
+        android:background="#FFFFFFFF"
+        android:paddingTop="8dp"
+        app:itemTextAppearanceActive="@style/BottomNavigationViewActiveText"
+        app:itemTextAppearanceInactive="@style/BottomNavigationViewInactiveText"
+
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:menu="@menu/menu_principal"
+        tools:layout_editor_absoluteX="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

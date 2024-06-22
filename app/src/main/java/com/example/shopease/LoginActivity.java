@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish(); // Terminar la actividad actual para evitar que el usuario regrese con el botón Atrás
                         } else {
                             String errorMessage = task.getException() != null ? task.getException().getMessage() : "Error desconocido";
-                            Toast.makeText(LoginActivity.this, "Error al iniciar sesión: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Error al iniciar sesión: " , Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

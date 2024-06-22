@@ -1,0 +1,27 @@
+<resources>
+    <!-- Estilo personalizado para centrar íconos y texto en BottomNavigationView -->
+    <style name="BottomNavigationViewCenteredItem" parent="Widget.Design.BottomNavigationView">
+        <item name="itemIconSize">24dp</item>
+        <item name="itemTextAppearanceActive">@style/BottomNavigationViewActiveText</item>
+        <item name="itemTextAppearanceInactive">@style/BottomNavigationViewInactiveText</item>
+    </style>
+
+    <style name="BottomNavigationViewActiveText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="BottomNavigationViewInactiveText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="RatingBarYellow" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressTint">@color/black</item>
+    </style>
+
+
+
+</resources>
