@@ -36,6 +36,15 @@
         android:textColor="@color/black"
         android:paddingTop="4dp" />
 
+
+    <TextView
+        android:id="@+id/product_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product Category"
+        android:textColor="@color/black"
+        android:paddingTop="4dp" />
+
     <Button
         android:id="@+id/btn_carrito"
         android:layout_width="match_parent"

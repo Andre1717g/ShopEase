@@ -3,19 +3,19 @@ package com.example.shopease.Models;
 public class Product {
     private String nombre;
     private String descripcion;
+    private double precio;
     private String img;
-    private String precio;
+    private String categoria;
 
-    public Product() {
-        // Constructor vacío necesario para Firebase
-    }
-
-    public Product(String nombre, String descripción, String img, String precio) {
+    public Product(String nombre, String descripcion, double precio, String img, String categoria) {
         this.nombre = nombre;
-        this.descripcion = descripción;
-        this.img = img;
+        this.descripcion = descripcion;
         this.precio = precio;
+        this.img = img;
+        this.categoria = categoria;
     }
+
+    // Getters y setters
 
     public String getNombre() {
         return nombre;
@@ -29,8 +29,16 @@ public class Product {
         return descripcion;
     }
 
-    public void setDescripción(String descripción) {
-        this.descripcion = descripción;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
     public String getImg() {
@@ -41,11 +49,11 @@ public class Product {
         this.img = img;
     }
 
-    public String getPrecio() {
-        return precio;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setPrecio(String precio) {
-        this.precio = precio;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 }

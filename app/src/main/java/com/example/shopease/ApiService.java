@@ -1,13 +1,13 @@
-package com.example.shopease.ApiRest;
+package com.example.shopease;
 
 import com.example.shopease.Models.Product;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 
+import java.util.List;
+
 public interface ApiService {
-    @GET("productos")
+    @GET("api/productos")
     Call<List<Product>> getProductos();
 }
