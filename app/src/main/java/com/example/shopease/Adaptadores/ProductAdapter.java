@@ -4,36 +4,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.shopease.Models.Product;
 import com.example.shopease.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> implements android.widget.Filterable {
     private List<Product> productList;
+    private List<Product> productListFull; // Para guardar la lista completa de productos
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder {
         public ImageButton productImage;
         public TextView productName;
         public TextView productDescription;
         public TextView productPrice;
+        public Button addToCartButton;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -41,12 +32,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             productName = itemView.findViewById(R.id.product_name);
             productDescription = itemView.findViewById(R.id.product_description);
             productPrice = itemView.findViewById(R.id.product_price);
+            addToCartButton = itemView.findViewById(R.id.btn_carrito);
         }
     }
 
     public ProductAdapter(List<Product> productList) {
         this.productList = productList;
-        fetchProductsFromFirebase();
+        this.productListFull = new ArrayList<>(productList); // Inicializamos la lista completa
     }
 
     @NonNull
@@ -61,21 +53,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product currentItem = productList.get(position);
 
         Log.d("ProductAdapter", "Nombre: " + currentItem.getNombre());
-        Log.d("ProductAdapter", "Descripción: " + currentItem.getDescripción());
+        Log.d("ProductAdapter", "Descripcion: " + currentItem.getDescripcion());
         Log.d("ProductAdapter", "Precio: " + currentItem.getPrecio());
 
-
-        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(currentItem.getImg());
-        storageReference.getDownloadUrl().addOnSuccessListener(uri ->
-                Picasso.get().load(uri).into(holder.productImage)
-        ).addOnFailureListener(exception -> {
-            // Manejo de errores si no se puede obtener la URL
-            holder.productImage.setImageResource(R.drawable.placeholder); // Placeholder image
-        });
+        Picasso.get().load(currentItem.getImg()).into(holder.productImage);
 
         holder.productName.setText(currentItem.getNombre());
-        holder.productDescription.setText(currentItem.getDescripción());
-        holder.productPrice.setText(currentItem.getPrecio());
+        holder.productDescription.setText(currentItem.getDescripcion());
+        holder.productPrice.setText("$" + currentItem.getPrecio());
+
+        holder.addToCartButton.setOnClickListener(v -> {
+            // Manejo del evento de agregar al carrito
+            // Implementa la lógica para agregar al carrito aquí
+
+        });
     }
 
     @Override
@@ -83,23 +74,46 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    private void fetchProductsFromFirebase() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("productos");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                productList.clear();
-                for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
-                    Product product = productSnapshot.getValue(Product.class);
-                    productList.add(product);
+    public void updateProductList(List<Product> newProductList) {
+        productList.clear();
+        productList.addAll(newProductList);
+        productListFull = new ArrayList<>(newProductList); // Actualizamos la lista completa cuando cargamos los datos
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public android.widget.Filter getFilter() {
+        return productFilter;
+    }
+
+    private android.widget.Filter productFilter = new android.widget.Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Product> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(productListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Product item : productListFull) {
+                    if (item.getNombre().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
                 }
-                notifyDataSetChanged();
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("ProductAdapter", "Error al cargar los datos de Firebase", databaseError.toException());
-            }
-        });
-    }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            productList.clear();
+            productList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

@@ -1,5 +1,6 @@
 package com.example.shopease;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,20 +11,34 @@ import com.example.shopease.Fragment.HomeFragment;
 import com.example.shopease.Fragment.CarritoFragment;
 import com.example.shopease.Fragment.CategoriaFragment;
 import com.example.shopease.Fragment.PerfilFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private FragmentContainerView fragmentContainerView;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        // Verificar si el usuario ha iniciado sesión
+        if (currentUser == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return; // Evitar continuar con la inicialización si el usuario no ha iniciado sesión
+        }
+
         bottomNavigationView = findViewById(R.id.BNavigation);
         fragmentContainerView = findViewById(R.id.fragment_container_view);
 
-        // Load the default fragment (HomeFragment) if the savedInstanceState is null
+        // Cargar el fragmento predeterminado (HomeFragment) si savedInstanceState es nulo
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container_view, new HomeFragment())
@@ -47,8 +62,5 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
-
-
-
     }
 }

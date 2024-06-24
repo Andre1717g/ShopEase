@@ -2,4 +2,37 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="soft_button_color">#FFC107</color>
+    <color name="soft_button_color_dark">#FFA000</color>
+    <color name="soft_button_color_light">#FFEE58</color>
+
+    //enlista multiples colores mate
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryLight">#C5CAE9</color>
+    <color name="colorPrimaryText">#FFFFFF</color>
+    <color name="colorSecondaryText">#727272</color>
+    <color name="colorDivider">#B6B6B6</color>
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorBackgroundDark">#E0E0E0</color>
+    <color name="colorBackgroundLight">#FFFFFF</color>
+    <color name="colorBackgroundLightDark">#FAFAFA</color>
+    <color name="colorBackgroundLightLight">#F5F5F5</color>
+    <color name="colorBackgroundLightLightDark">#EEEEEE</color>
+    <color name="colorBackgroundLightLightLight">#E0E0E0</color>
+<color name="colorBackgroundLightLightLightDark">#D6D6D6</color>
+    <color name="colorBackgroundLightLightLightLight">#C5C5C5</color>
+    <color name="colorBackgroundLightLightLightLightDark">#B6B6B6</color>
+    <color name="colorBackgroundLightLightLightLightLight">#A7A7A7</color>
+    <color name="colorBackgroundLightLightLightLightLightDark">#999999</color>
+    <color name="colorBackgroundLightLightLightLightLightLight">#8A8A8A</color>
+    <color name="colorBackgroundLightLightLightLightLightLightDark">#7B7B7B</color>
+    <color name="colorBackgroundLightLightLightLightLightLightLight">#6C6C6C</color>
+    <color name="colorBackgroundLightLightLightLightLightLightLightDark">#5D5D5D</color>
+    <color name="colorBackgroundLightLightLightLightLightLightLightLight">#4E4E4E</color>
+    <color name="colorBackgroundLightLightLightLightLightLightLightLightDark">#3F3F3F</color>
+    <color name="colorBackgroundLightLightLightLightLightLightLightLightLight">#303030</color>
+    <color name="colorBackgroundLightLightLightLightLightLightLightLightLightDark">#212121</color>
 </resources>

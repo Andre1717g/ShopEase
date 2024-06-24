@@ -2,7 +2,7 @@ package com.example.shopease.Models;
 
 public class Product {
     private String nombre;
-    private String descripción;
+    private String descripcion;
     private String img;
     private String precio;
 
@@ -12,7 +12,7 @@ public class Product {
 
     public Product(String nombre, String descripción, String img, String precio) {
         this.nombre = nombre;
-        this.descripción = descripción;
+        this.descripcion = descripción;
         this.img = img;
         this.precio = precio;
     }
@@ -25,12 +25,12 @@ public class Product {
         this.nombre = nombre;
     }
 
-    public String getDescripción() {
-        return descripción;
+    public String getDescripcion() {
+        return descripcion;
     }
 
     public void setDescripción(String descripción) {
-        this.descripción = descripción;
+        this.descripcion = descripción;
     }
 
     public String getImg() {
