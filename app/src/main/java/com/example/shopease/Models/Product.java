@@ -16,7 +16,6 @@ public class Product {
     }
 
     // Getters y setters
-
     public String getNombre() {
         return nombre;
     }

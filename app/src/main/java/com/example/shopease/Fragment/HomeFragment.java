@@ -1,73 +1,89 @@
 package com.example.shopease.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shopease.Adaptadores.ApiClient;
 import com.example.shopease.Adaptadores.ProductAdapter;
-
-import com.example.shopease.ApiService;
+import com.example.shopease.Adaptadores.ProductService;
 import com.example.shopease.Models.Product;
 import com.example.shopease.R;
-import com.example.shopease.RetrofitClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import java.util.List;
-
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import java.util.List;
 
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
-    private ProductAdapter productoAdapter;
+    private ProductAdapter adapter;
+    private List<Product> productList;
+    private List<Product> carritoList;
+    private SearchView searchView;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        searchView = view.findViewById(R.id.searchView);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        loadProductos();
-        return view;
-    }
 
-    private void loadProductos() {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        carritoList = new ArrayList<>(); // Inicializa la lista del carrito
+
+        ProductService apiService = ApiClient.getClient().create(ProductService.class);
         Call<List<Product>> call = apiService.getProductos();
 
         call.enqueue(new Callback<List<Product>>() {
             @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Product> productos = response.body();
-                    productoAdapter = new ProductAdapter(productos);
-                    recyclerView.setAdapter(productoAdapter);
+                    productList = response.body();
+                    adapter = new ProductAdapter(productList, carritoList);
+                    recyclerView.setAdapter(adapter);
+                    setupSearchView();
                 } else {
-                    Toast.makeText(getContext(), "Error en la respuesta", Toast.LENGTH_SHORT).show();
+                    Log.e("HomeFragment", "Error: " + response.code());
+                    Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error en la conexión", Toast.LENGTH_SHORT).show();
+            public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
+                Log.e("HomeFragment", "Fallo: " + t.getMessage());
+                Toast.makeText(getContext(), "Conexión fallida: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return view;
+    }
+
+    private void setupSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
             }
         });
     }
