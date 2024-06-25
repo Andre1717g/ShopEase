@@ -4,64 +4,48 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.example.shopease.Models.Product;
 import com.example.shopease.R;
-import com.squareup.picasso.Picasso;
-import android.widget.Filter;
-import android.widget.Filterable;
 import java.util.ArrayList;
 import java.util.List;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.Toast;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> implements Filterable {
     private List<Product> productList;
-    private List<Product> productListFull; // Lista completa para el filtrado
-    private List<Product> carritoList; // Lista de productos del carrito
+    private List<Product> productListFull;
+    private CarritoAdapter carritoAdapter;
 
-    public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        public ImageButton productImage;
-        public TextView productName;
-        public TextView productDescription;
-        public TextView productPrice;
-
-        public ProductViewHolder(View itemView) {
-            super(itemView);
-            productImage = itemView.findViewById(R.id.product_image);
-            productName = itemView.findViewById(R.id.product_name);
-            productDescription = itemView.findViewById(R.id.product_description);
-            productPrice = itemView.findViewById(R.id.product_price);
-        }
-    }
-
-    public ProductAdapter(List<Product> productList, List<Product> carritoList) {
+    public ProductAdapter(List<Product> productList, CarritoAdapter carritoAdapter) {
         this.productList = productList;
-        this.productListFull = new ArrayList<>(productList);
-        this.carritoList = carritoList;
+        this.productListFull = new ArrayList<>(productList); // copia completa de la lista
+        this.carritoAdapter = carritoAdapter;
     }
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
-        return new ProductViewHolder(v);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
+        return new ProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Product currentItem = productList.get(position);
+        Product product = productList.get(position);
+        holder.nombre.setText(product.getNombre());
+        holder.descripcion.setText(product.getDescripcion());
+        holder.precio.setText(String.valueOf(product.getPrecio()));
+        Glide.with(holder.itemView.getContext()).load(product.getImg()).into(holder.img);
 
-        holder.productName.setText(currentItem.getNombre());
-        holder.productDescription.setText(currentItem.getDescripcion());
-        holder.productPrice.setText("$" + currentItem.getPrecio());
-
-        Picasso.get().load(currentItem.getImg()).into(holder.productImage);
-
-        holder.itemView.findViewById(R.id.btn_carrito).setOnClickListener(v -> {
-            carritoList.add(currentItem);
-            Toast.makeText(holder.itemView.getContext(), "Producto añadido al carrito", Toast.LENGTH_SHORT).show();
+        holder.addButton.setOnClickListener(v -> {
+            carritoAdapter.addProductToCart(product);
+            Toast.makeText(holder.itemView.getContext(), "Producto agregado al carrito", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -86,7 +70,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (Product item : productListFull) {
-                    if (item.getNombre().toLowerCase().contains(filterPattern)) {
+                    if (item.getNombre().toLowerCase().contains(filterPattern) ||
+                            item.getDescripcion().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
@@ -105,4 +90,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             notifyDataSetChanged();
         }
     };
+
+    static class ProductViewHolder extends RecyclerView.ViewHolder {
+        TextView nombre, descripcion, precio;
+        ImageView img;
+        ImageButton addButton;
+
+        public ProductViewHolder(@NonNull View itemView) {
+            super(itemView);
+            nombre = itemView.findViewById(R.id.nombre);
+            descripcion = itemView.findViewById(R.id.descripcion);
+            precio = itemView.findViewById(R.id.precio);
+            img = itemView.findViewById(R.id.img);
+            addButton = itemView.findViewById(R.id.add_to_cart_button);
+        }
+    }
 }

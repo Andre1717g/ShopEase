@@ -1,21 +1,34 @@
 package com.example.shopease.Models;
 
-public class Product {
-    private String nombre;
-    private String descripcion;
-    private double precio;
-    private String img;
-    private String categoria;
+import com.google.gson.annotations.SerializedName;
 
-    public Product(String nombre, String descripcion, double precio, String img, String categoria) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.precio = precio;
-        this.img = img;
-        this.categoria = categoria;
+public class Product {
+
+    @SerializedName("id")
+    private int id;
+
+    @SerializedName("nombre")
+    private String nombre;
+
+    @SerializedName("descripcion")
+    private String descripcion;
+
+    @SerializedName("precio")
+    private double precio;
+
+    @SerializedName("img")
+    private String img;
+
+    // Getters and Setters
+
+    public int getId() {
+        return id;
     }
 
-    // Getters y setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -46,13 +59,5 @@ public class Product {
 
     public void setImg(String img) {
         this.img = img;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
     }
 }

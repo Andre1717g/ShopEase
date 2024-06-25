@@ -6,23 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.shopease.Adaptadores.ApiClient;
+import com.example.shopease.Adaptadores.CarritoAdapter;
 import com.example.shopease.Adaptadores.ProductAdapter;
 import com.example.shopease.Adaptadores.ProductService;
 import com.example.shopease.Models.Product;
 import com.example.shopease.R;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,8 +27,8 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProductAdapter adapter;
+    private CarritoAdapter carritoAdapter;
     private List<Product> productList;
-    private List<Product> carritoList;
     private SearchView searchView;
 
     @Nullable
@@ -43,7 +40,7 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        carritoList = new ArrayList<>(); // Inicializa la lista del carrito
+        carritoAdapter = new CarritoAdapter(new ArrayList<>()); // Inicializa el CarritoAdapter
 
         ProductService apiService = ApiClient.getClient().create(ProductService.class);
         Call<List<Product>> call = apiService.getProductos();
@@ -53,7 +50,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     productList = response.body();
-                    adapter = new ProductAdapter(productList, carritoList);
+                    adapter = new ProductAdapter(productList, carritoAdapter);
                     recyclerView.setAdapter(adapter);
                     setupSearchView();
                 } else {

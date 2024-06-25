@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
-            return; // Evitar continuar con la inicialización si el usuario no ha iniciado sesión
+            return;
         }
 
         bottomNavigationView = findViewById(R.id.BNavigation);
@@ -62,5 +62,13 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+    }
+
+    public FragmentContainerView getFragmentContainerView() {
+        return fragmentContainerView;
+    }
+
+    public void setFragmentContainerView(FragmentContainerView fragmentContainerView) {
+        this.fragmentContainerView = fragmentContainerView;
     }
 }

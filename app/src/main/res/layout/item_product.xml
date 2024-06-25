@@ -1,46 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="8dp">
 
-    <ImageButton
-        android:id="@+id/product_image"
+    <ImageView
+        android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"/>
 
     <TextView
-        android:id="@+id/product_name"
+        android:id="@+id/nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Product Name"
-        android:textSize="16sp"
         android:textStyle="bold"
-        android:paddingTop="8dp" />
+        android:textSize="18sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"/>
 
     <TextView
-        android:id="@+id/product_description"
+        android:id="@+id/descripcion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Product Description"
-        android:paddingTop="4dp" />
+        android:textSize="16sp"
+        android:paddingBottom="4dp"/>
 
     <TextView
-        android:id="@+id/product_price"
+        android:id="@+id/precio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Product Price"
-        android:textColor="@android:color/black"
-        android:paddingTop="4dp" />
+        android:textSize="16sp"
+        android:paddingBottom="8dp"/>
 
-    <Button
-        android:id="@+id/btn_carrito"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/add_to_cart_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Agregar"
-        android:textColor="@android:color/white"
-        android:paddingTop="4dp" />
+        android:src="@drawable/ic_add_shopping_cart" />
 
 </LinearLayout>
