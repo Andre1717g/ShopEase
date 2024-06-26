@@ -3,6 +3,7 @@ package com.example.shopease.Adaptadores;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -95,7 +96,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView nombre, descripcion, precio, categoria;
         ImageView img;
-        ImageButton addButton;
+        Button addButton;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);

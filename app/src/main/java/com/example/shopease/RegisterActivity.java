@@ -36,10 +36,10 @@ public class RegisterActivity extends AppCompatActivity {
         // Inicializar FirebaseAuth
         auth = FirebaseAuth.getInstance();
         //esto es para mantener inciada la sesion
-       // if (auth.getCurrentUser() != null) {
-         //   startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-           // finish();
-        //}
+        if (auth.getCurrentUser() != null) {
+           startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+           finish();
+        }
 
         // Enlazar las vistas
         usuario = findViewById(R.id.registerUsuario);

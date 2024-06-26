@@ -40,10 +40,13 @@
         android:textSize="16sp"
         android:paddingBottom="8dp"/>
 
-    <ImageButton
-        android:id="@+id/add_to_cart_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add_shopping_cart" />
 
+    <Button
+        android:id="@+id/add_to_cart_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar"
+
+        android:textColor="@color/white"
+        android:padding="8dp"/>
 </LinearLayout>
