@@ -38,9 +38,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
-        holder.nombre.setText(product.getNombre());
-        holder.descripcion.setText(product.getDescripcion());
-        holder.precio.setText(String.valueOf(product.getPrecio()));
+        holder.nombre.setText("Nombre: " + product.getNombre());
+        holder.descripcion.setText("Descripción: " + product.getDescripcion());
+        holder.precio.setText("Precio: $" + String.valueOf(product.getPrecio()));
+        holder.categoria.setText("Categoría: " + product.getCategoria());
         Glide.with(holder.itemView.getContext()).load(product.getImg()).into(holder.img);
 
         holder.addButton.setOnClickListener(v -> {
@@ -92,7 +93,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     };
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView nombre, descripcion, precio;
+        TextView nombre, descripcion, precio, categoria;
         ImageView img;
         ImageButton addButton;
 
@@ -103,6 +104,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             precio = itemView.findViewById(R.id.precio);
             img = itemView.findViewById(R.id.img);
             addButton = itemView.findViewById(R.id.add_to_cart_button);
+            categoria = itemView.findViewById(R.id.categoria);
         }
     }
 }

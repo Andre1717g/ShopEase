@@ -16,6 +16,9 @@ public class Product {
     @SerializedName("precio")
     private double precio;
 
+    @SerializedName("categoria")
+    private String categoria;
+
     @SerializedName("img")
     private String img;
 
@@ -51,6 +54,14 @@ public class Product {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public String getImg() {
