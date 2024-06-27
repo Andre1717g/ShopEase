@@ -57,12 +57,10 @@ public class CarritoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Navegar al PagosFragment
-                if (getParentFragmentManager() != null) {
-                    getParentFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_view, new PagosFragment())
-                            .addToBackStack(null)
-                            .commit();
-                }
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container_view, new PagosFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 

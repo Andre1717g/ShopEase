@@ -60,6 +60,10 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
                 updateQuantity(holder, product, quantity);
             }
         });
+
+        holder.eliminarButton.setOnClickListener(v -> {
+            eliminarProducto(holder.getAdapterPosition(), product);
+        });
     }
 
     private void updateQuantity(CarritoViewHolder holder, Product product, int quantity) {
@@ -70,6 +74,22 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
                     holder.cantidad.setText("Cantidad: " + quantity);
                     holder.total.setText("Total: $" + (product.getPrecio() * quantity));
                     quantityChangeListener.onQuantityChanged();
+                })
+                .addOnFailureListener(e -> {
+                    // Handle failure
+                });
+    }
+
+    private void eliminarProducto(int position, Product product) {
+        String userId = auth.getCurrentUser().getUid();
+        databaseReference.child("carritos").child(userId).child("productos").child(String.valueOf(product.getId())).removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    if (position != RecyclerView.NO_POSITION && position < productList.size()) {
+                        productList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, productList.size());
+                        quantityChangeListener.onQuantityChanged();
+                    }
                 })
                 .addOnFailureListener(e -> {
                     // Handle failure
@@ -95,7 +115,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
     static class CarritoViewHolder extends RecyclerView.ViewHolder {
         TextView nombre, descripcion, precio, cantidad, total;
         ImageView img;
-        ImageButton incrementoButton, decrementoButton;
+        ImageButton incrementoButton, decrementoButton, eliminarButton;
 
         public CarritoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,6 +127,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
             img = itemView.findViewById(R.id.carrito_producto_imagen);
             incrementoButton = itemView.findViewById(R.id.incrementarproducto);
             decrementoButton = itemView.findViewById(R.id.restarproducto);
+            eliminarButton = itemView.findViewById(R.id.eliminar);
         }
     }
 }
