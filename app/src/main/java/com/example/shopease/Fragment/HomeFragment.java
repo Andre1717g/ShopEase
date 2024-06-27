@@ -102,6 +102,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateTotal() {
-        // Aquí puedes actualizar el total si es necesario
+
     }
 }

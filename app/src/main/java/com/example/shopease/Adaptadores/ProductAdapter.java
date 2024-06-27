@@ -15,6 +15,7 @@ import com.example.shopease.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import android.widget.Filter;
@@ -78,12 +79,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(productListFull);
             } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
+                String filterPattern = normalizeString(constraint.toString().toLowerCase().trim());
 
                 for (Product item : productListFull) {
-                    if (item.getNombre().toLowerCase().contains(filterPattern) ||
-                            item.getDescripcion().toLowerCase().contains(filterPattern) ||
-                            item.getCategoria().toLowerCase().contains(filterPattern)) { // Filtrado por categoría
+                    if (normalizeString(item.getNombre().toLowerCase()).contains(filterPattern) ||
+                            normalizeString(item.getDescripcion().toLowerCase()).contains(filterPattern) ||
+                            normalizeString(item.getCategoria().toLowerCase()).contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
@@ -102,6 +103,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             notifyDataSetChanged();
         }
     };
+
+    private String normalizeString(String str) {
+        return Normalizer.normalize(str, Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .toLowerCase();
+    }
 
     private void addProductToCart(Product product) {
         String userId = auth.getCurrentUser().getUid();
