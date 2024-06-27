@@ -26,7 +26,7 @@ public class PagosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_pagos, container, false);
 
         // Configurar el botón de salida
-        buttonExit = view.findViewById(R.id.button_exit);
+        buttonExit = view.findViewById(R.id.button_atras);
         buttonExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

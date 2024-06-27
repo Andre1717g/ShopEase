@@ -47,13 +47,13 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
         holder.cantidad.setText("Cantidad: " + product.getCantidad());
         holder.total.setText("Total: $" + (product.getPrecio() * product.getCantidad()));
 
-        holder.increaseButton.setOnClickListener(v -> {
+        holder.incrementoButton.setOnClickListener(v -> {
             int quantity = product.getCantidad();
             quantity++;
             updateQuantity(holder, product, quantity);
         });
 
-        holder.decreaseButton.setOnClickListener(v -> {
+        holder.decrementoButton.setOnClickListener(v -> {
             int quantity = product.getCantidad();
             if (quantity > 1) {
                 quantity--;
@@ -95,18 +95,18 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
     static class CarritoViewHolder extends RecyclerView.ViewHolder {
         TextView nombre, descripcion, precio, cantidad, total;
         ImageView img;
-        ImageButton increaseButton, decreaseButton;
+        ImageButton incrementoButton, decrementoButton;
 
         public CarritoViewHolder(@NonNull View itemView) {
             super(itemView);
-            nombre = itemView.findViewById(R.id.carrito_product_name);
-            descripcion = itemView.findViewById(R.id.carrito_product_description);
-            precio = itemView.findViewById(R.id.carrito_product_price);
-            cantidad = itemView.findViewById(R.id.carrito_product_quantity);
-            total = itemView.findViewById(R.id.carrito_product_total_price);
-            img = itemView.findViewById(R.id.carrito_product_image);
-            increaseButton = itemView.findViewById(R.id.button_increase_quantity);
-            decreaseButton = itemView.findViewById(R.id.button_decrease_quantity);
+            nombre = itemView.findViewById(R.id.carrito_product_nombre);
+            descripcion = itemView.findViewById(R.id.carrito_product_descripcion);
+            precio = itemView.findViewById(R.id.carrito_product_precio);
+            cantidad = itemView.findViewById(R.id.carrito_cantidad_producto);
+            total = itemView.findViewById(R.id.carrito_producto_total_precio);
+            img = itemView.findViewById(R.id.carrito_producto_imagen);
+            incrementoButton = itemView.findViewById(R.id.incrementarproducto);
+            decrementoButton = itemView.findViewById(R.id.restarproducto);
         }
     }
 }
