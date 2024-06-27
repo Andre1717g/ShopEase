@@ -10,11 +10,7 @@
         android:title="Carrito"
         android:paddingTop="10dp"
         android:icon="@drawable/carrito" />
-    <item
-        android:id="@+id/categoria"
-        android:title="Categoría"
-        android:paddingTop="10dp"
-        android:icon="@drawable/categoria" />
+
     <item
         android:id="@+id/perfil"
         android:title="Perfil"

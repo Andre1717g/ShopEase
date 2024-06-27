@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import com.example.shopease.Fragment.HomeFragment;
 import com.example.shopease.Fragment.CarritoFragment;
-import com.example.shopease.Fragment.CategoriaFragment;
 import com.example.shopease.Fragment.PerfilFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case "Carrito":
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new CarritoFragment()).commit();
-                    break;
-                case "Categoría":
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new CategoriaFragment()).commit();
                     break;
                 case "Perfil":
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new PerfilFragment()).commit();

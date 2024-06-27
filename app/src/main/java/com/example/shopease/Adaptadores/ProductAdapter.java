@@ -82,7 +82,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
                 for (Product item : productListFull) {
                     if (item.getNombre().toLowerCase().contains(filterPattern) ||
-                            item.getDescripcion().toLowerCase().contains(filterPattern)) {
+                            item.getDescripcion().toLowerCase().contains(filterPattern) ||
+                            item.getCategoria().toLowerCase().contains(filterPattern)) { // Filtrado por categoría
                         filteredList.add(item);
                     }
                 }
