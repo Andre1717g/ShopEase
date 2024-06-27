@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,17 +30,19 @@ public class CarritoFragment extends Fragment {
     private List<Product> productList;
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
+    private TextView totalTextView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_carrito, container, false);
 
+        totalTextView = view.findViewById(R.id.header_text);
         recyclerView = view.findViewById(R.id.recyclerViewCarrito);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         productList = new ArrayList<>();
-        adapter = new CarritoAdapter(productList);
+        adapter = new CarritoAdapter(productList, this::updateTotal);
         recyclerView.setAdapter(adapter);
 
         auth = FirebaseAuth.getInstance();
@@ -63,6 +66,7 @@ public class CarritoFragment extends Fragment {
                     productList.add(product);
                 }
                 adapter.notifyDataSetChanged();
+                updateTotal();
             }
 
             @Override
@@ -71,5 +75,13 @@ public class CarritoFragment extends Fragment {
                 Toast.makeText(getContext(), "Error al obtener carrito", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void updateTotal() {
+        double total = 0.0;
+        for (Product product : productList) {
+            total += product.getPrecio() * product.getCantidad();
+        }
+        totalTextView.setText("Total a pagar: $" + String.format("%.2f", total));
     }
 }

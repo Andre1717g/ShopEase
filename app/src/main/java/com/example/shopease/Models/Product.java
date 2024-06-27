@@ -22,7 +22,7 @@ public class Product {
     @SerializedName("img")
     private String img;
 
-    // Getters and Setters
+    private int cantidad;
 
     public int getId() {
         return id;
@@ -70,5 +70,13 @@ public class Product {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 }

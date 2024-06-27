@@ -53,26 +53,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
         android:paddingTop="8dp">
 
-        <ImageButton
-            android:id="@+id/button_decrease_quantity"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@android:drawable/ic_media_previous"
-            android:contentDescription="Decrease Quantity"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside" />
+        <!-- Contenedor para el botón de la izquierda -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="start">
 
-        <ImageButton
-            android:id="@+id/button_increase_quantity"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@android:drawable/ic_media_next"
-            android:contentDescription="Increase Quantity"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            android:layout_marginStart="16dp" />
+            <ImageButton
+                android:id="@+id/button_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="Icon"
+                android:scaleType="centerInside"
+                android:src="@drawable/eliminar" />
+        </LinearLayout>
+
+        <!-- Contenedor para los botones de la derecha -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <ImageButton
+                android:id="@+id/button_decrease_quantity"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="Decrease Quantity"
+                android:scaleType="centerInside"
+                android:src="@drawable/restar"
+                android:layout_marginStart="16dp" />
+
+            <ImageButton
+                android:id="@+id/button_increase_quantity"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="Increase Quantity"
+                android:scaleType="centerInside"
+                android:src="@drawable/suma" />
+        </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

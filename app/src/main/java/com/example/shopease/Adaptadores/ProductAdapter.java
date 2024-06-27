@@ -15,7 +15,6 @@ import com.example.shopease.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 import java.util.List;
 import android.widget.Filter;
@@ -51,7 +50,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product product = productList.get(position);
         holder.nombre.setText("Nombre: " + product.getNombre());
         holder.descripcion.setText("Descripción: " + product.getDescripcion());
-        holder.precio.setText("Precio: $" + String.valueOf(product.getPrecio()));
+        holder.precio.setText("Precio: $" + product.getPrecio());
         holder.categoria.setText("Categoría: " + product.getCategoria());
         Glide.with(holder.itemView.getContext()).load(product.getImg()).into(holder.img);
 
@@ -109,7 +108,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         carritoRef.child(String.valueOf(product.getId())).setValue(product)
                 .addOnSuccessListener(aVoid -> {
-                    carritoAdapter.addProductToCart(product); // Asegúrate de que este método esté definido en CarritoAdapter
+                    if (carritoAdapter != null) {
+                        carritoAdapter.addProductToCart(product);
+                    }
                     Toast.makeText(context, "Producto agregado al carrito", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
