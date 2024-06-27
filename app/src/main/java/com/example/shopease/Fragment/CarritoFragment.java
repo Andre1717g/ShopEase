@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ public class CarritoFragment extends Fragment {
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
     private TextView totalTextView;
+    private ImageButton headerButton;
 
     @Nullable
     @Override
@@ -49,6 +51,20 @@ public class CarritoFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         cargarProductosCarrito();
+
+        headerButton = view.findViewById(R.id.header_button);
+        headerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navegar al PagosFragment
+                if (getParentFragmentManager() != null) {
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container_view, new PagosFragment())
+                            .addToBackStack(null)
+                            .commit();
+                }
+            }
+        });
 
         return view;
     }

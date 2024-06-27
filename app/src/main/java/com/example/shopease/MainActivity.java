@@ -2,15 +2,15 @@ package com.example.shopease;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
+import android.view.View;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentContainerView;
 import com.example.shopease.Fragment.HomeFragment;
 import com.example.shopease.Fragment.CarritoFragment;
 import com.example.shopease.Fragment.CategoriaFragment;
 import com.example.shopease.Fragment.PerfilFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public FragmentContainerView getFragmentContainerView() {
-        return fragmentContainerView;
+    public void hideBottomNavigationView() {
+        bottomNavigationView.setVisibility(View.GONE);
     }
 
-    public void setFragmentContainerView(FragmentContainerView fragmentContainerView) {
-        this.fragmentContainerView = fragmentContainerView;
+    public void showBottomNavigationView() {
+        bottomNavigationView.setVisibility(View.VISIBLE);
     }
 }

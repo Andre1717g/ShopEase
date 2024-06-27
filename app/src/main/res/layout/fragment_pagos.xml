@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <ImageButton
+            android:id="@+id/button_exit"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Exit"
+            android:src="@drawable/salir"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/tv_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Realizar Pago"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_card_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Número de Tarjeta"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/et_card_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="1234 5678 9012 3456"
+        android:maxLength="19"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tv_expiry_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fecha de Expiración"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/et_expiry_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:hint="MM/YY"
+        android:maxLength="5"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tv_cvv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CVV"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/et_cvv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        android:hint="123"
+        android:maxLength="3"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tv_cardholder_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre del Titular"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/et_cardholder_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Nombre como aparece en la tarjeta"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btn_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pagar"
+        android:padding="16dp" />
+
+</LinearLayout>

@@ -1,11 +1,11 @@
 package com.example.shopease.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +25,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import androidx.appcompat.widget.SearchView;
 
-
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProductAdapter adapter;
@@ -44,6 +43,12 @@ public class HomeFragment extends Fragment {
 
         carritoAdapter = new CarritoAdapter(new ArrayList<>(), this::updateTotal); // Inicializa el CarritoAdapter
 
+        fetchProducts();
+
+        return view;
+    }
+
+    private void fetchProducts() {
         ProductService apiService = ApiClient.getClient().create(ProductService.class);
         Call<List<Product>> call = apiService.getProductos();
 
@@ -57,34 +62,43 @@ public class HomeFragment extends Fragment {
                     setupSearchView();
                 } else {
                     Log.e("HomeFragment", "Error: " + response.code());
-                    Toast.makeText(getContext(), "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    showToast("Error: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Product>> call, @NonNull Throwable t) {
                 Log.e("HomeFragment", "Fallo: " + t.getMessage());
-                Toast.makeText(getContext(), "Conexión fallida: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showToast("Conexión fallida: " + t.getMessage());
             }
         });
-
-        return view;
     }
 
     private void setupSearchView() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter().filter(query);
+                if (adapter != null) {
+                    adapter.getFilter().filter(query);
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                if (adapter != null) {
+                    adapter.getFilter().filter(newText);
+                }
                 return false;
             }
         });
+    }
+
+    private void showToast(String message) {
+        Context context = getContext();
+        if (context != null) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateTotal() {
