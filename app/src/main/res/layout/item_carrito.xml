@@ -49,4 +49,30 @@
         android:text="Total: $0.00"
         android:paddingTop="4dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="8dp">
+
+        <ImageButton
+            android:id="@+id/button_decrease_quantity"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_media_previous"
+            android:contentDescription="Decrease Quantity"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside" />
+
+        <ImageButton
+            android:id="@+id/button_increase_quantity"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_media_next"
+            android:contentDescription="Increase Quantity"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
 </LinearLayout>

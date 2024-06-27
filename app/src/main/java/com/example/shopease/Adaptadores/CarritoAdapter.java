@@ -10,14 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.shopease.Models.Product;
 import com.example.shopease.R;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoViewHolder> {
-    private List<Product> carritoList;
+    private List<Product> productList;
 
-    public CarritoAdapter(List<Product> carritoList) {
-        this.carritoList = carritoList;
+    public CarritoAdapter(List<Product> productList) {
+        this.productList = productList;
     }
 
     @NonNull
@@ -29,25 +28,20 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
 
     @Override
     public void onBindViewHolder(@NonNull CarritoViewHolder holder, int position) {
-        Product product = carritoList.get(position);
+        Product product = productList.get(position);
         holder.nombre.setText(product.getNombre());
         holder.descripcion.setText(product.getDescripcion());
-        holder.precio.setText(String.valueOf(product.getPrecio()));
+        holder.precio.setText("Precio: $" + product.getPrecio());
         Glide.with(holder.itemView.getContext()).load(product.getImg()).into(holder.img);
     }
 
     @Override
     public int getItemCount() {
-        return carritoList.size();
-    }
-
-    public void addProduct(Product product) {
-        carritoList.add(product);
-        notifyDataSetChanged();
+        return productList.size();
     }
 
     public void addProductToCart(Product product) {
-        carritoList.add(product);
+        productList.add(product);
         notifyDataSetChanged();
     }
 
@@ -57,10 +51,10 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.CarritoV
 
         public CarritoViewHolder(@NonNull View itemView) {
             super(itemView);
-            nombre = itemView.findViewById(R.id.nombre);
-            descripcion = itemView.findViewById(R.id.descripcion);
-            precio = itemView.findViewById(R.id.precio);
-            img = itemView.findViewById(R.id.img);
+            nombre = itemView.findViewById(R.id.carrito_product_name);
+            descripcion = itemView.findViewById(R.id.carrito_product_description);
+            precio = itemView.findViewById(R.id.carrito_product_price);
+            img = itemView.findViewById(R.id.carrito_product_image);
         }
     }
 }

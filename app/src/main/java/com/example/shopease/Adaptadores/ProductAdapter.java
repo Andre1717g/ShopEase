@@ -1,10 +1,10 @@
 package com.example.shopease.Adaptadores;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.shopease.Models.Product;
 import com.example.shopease.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 import android.widget.Filter;
@@ -22,11 +26,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private List<Product> productList;
     private List<Product> productListFull;
     private CarritoAdapter carritoAdapter;
+    private Context context;
+    private DatabaseReference databaseReference;
+    private FirebaseAuth auth;
 
-    public ProductAdapter(List<Product> productList, CarritoAdapter carritoAdapter) {
+    public ProductAdapter(Context context, List<Product> productList, CarritoAdapter carritoAdapter) {
+        this.context = context;
         this.productList = productList;
         this.productListFull = new ArrayList<>(productList); // copia completa de la lista
         this.carritoAdapter = carritoAdapter;
+        this.databaseReference = FirebaseDatabase.getInstance().getReference();
+        this.auth = FirebaseAuth.getInstance();
     }
 
     @NonNull
@@ -46,7 +56,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Glide.with(holder.itemView.getContext()).load(product.getImg()).into(holder.img);
 
         holder.addButton.setOnClickListener(v -> {
-            carritoAdapter.addProductToCart(product);
+            addProductToCart(product);
             Toast.makeText(holder.itemView.getContext(), "Producto agregado al carrito", Toast.LENGTH_SHORT).show();
         });
     }
@@ -92,6 +102,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             notifyDataSetChanged();
         }
     };
+
+    private void addProductToCart(Product product) {
+        String userId = auth.getCurrentUser().getUid();
+        DatabaseReference carritoRef = databaseReference.child("carritos").child(userId).child("productos");
+
+        carritoRef.child(String.valueOf(product.getId())).setValue(product)
+                .addOnSuccessListener(aVoid -> {
+                    carritoAdapter.addProductToCart(product); // Asegúrate de que este método esté definido en CarritoAdapter
+                    Toast.makeText(context, "Producto agregado al carrito", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(context, "Error al agregar producto", Toast.LENGTH_SHORT).show();
+                });
+    }
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView nombre, descripcion, precio, categoria;

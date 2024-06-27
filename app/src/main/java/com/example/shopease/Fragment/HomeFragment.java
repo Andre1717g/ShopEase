@@ -18,6 +18,8 @@ import com.example.shopease.Adaptadores.ProductAdapter;
 import com.example.shopease.Adaptadores.ProductService;
 import com.example.shopease.Models.Product;
 import com.example.shopease.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -50,7 +52,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Product>> call, @NonNull Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     productList = response.body();
-                    adapter = new ProductAdapter(productList, carritoAdapter);
+                    adapter = new ProductAdapter(getContext(), productList, carritoAdapter); // Pasa el contexto aquí
                     recyclerView.setAdapter(adapter);
                     setupSearchView();
                 } else {

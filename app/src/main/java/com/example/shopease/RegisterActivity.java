@@ -10,11 +10,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -22,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText usuario, correo, contraseña;
     private FirebaseAuth auth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +41,14 @@ public class RegisterActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        // Inicializar FirebaseAuth
+        // Inicializar FirebaseAuth y FirebaseFirestore
         auth = FirebaseAuth.getInstance();
-        //esto es para mantener inciada la sesion
+        db = FirebaseFirestore.getInstance();
+
+        // Esto es para mantener iniciada la sesión
         if (auth.getCurrentUser() != null) {
-           startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-           finish();
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            finish();
         }
 
         // Enlazar las vistas
@@ -78,9 +88,31 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
-                            Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                            finish(); // Terminar la actividad actual para evitar que el usuario regrese con el botón Atrás
+                            String userId = auth.getCurrentUser().getUid();
+
+                            // Crear un mapa con la información del usuario
+                            Map<String, Object> userMap = new HashMap<>();
+                            userMap.put("userId", userId);
+                            userMap.put("username", userUsuario);
+                            userMap.put("email", userCorreo);
+
+                            // Guardar la información del usuario en Firestore
+                            db.collection("users").document(userId).set(userMap)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                            finish(); // Terminar la actividad actual para evitar que el usuario regrese con el botón Atrás
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error al guardar la información del usuario", e);
+                                            Toast.makeText(RegisterActivity.this, "Error al registrar el usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(RegisterActivity.this, "Error al registrar el usuario: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
