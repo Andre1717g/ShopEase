@@ -1,35 +1,41 @@
 package com.example.shopease.Fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.example.shopease.MainActivity;
+
+import com.bumptech.glide.Glide;
+import com.example.shopease.LoginActivity;
 import com.example.shopease.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.GetTokenResult;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 public class PerfilFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    private DatabaseReference databaseReference;
-    private TextView tvEmail, tvInfo;
+    private TextView tvEmail, tvName, tvCreationDate;
+    private ImageView ivProfileImage;
     private Button btnLogout;
-    private Handler handler;
-    private Runnable logoutRunnable;
 
     @Nullable
     @Override
@@ -40,58 +46,68 @@ public class PerfilFragment extends Fragment {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         tvEmail = view.findViewById(R.id.tv_email);
+        tvName = view.findViewById(R.id.tv_name);
+        tvCreationDate = view.findViewById(R.id.tv_creation_date);
+        ivProfileImage = view.findViewById(R.id.iv_profile_image);
         btnLogout = view.findViewById(R.id.btn_logout);
 
         if (currentUser != null) {
+            String name = currentUser.getDisplayName();
+            String email = currentUser.getEmail();
+            Uri photoUrl = currentUser.getPhotoUrl();
             String uid = currentUser.getUid();
-            databaseReference = FirebaseDatabase.getInstance().getReference("users").child(uid);
 
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        String email = dataSnapshot.child("email").getValue(String.class);
-                        String info = dataSnapshot.child("info").getValue(String.class);
+            if (name != null) {
+                tvName.setText(name);
+            } else {
+                tvName.setText("Nombre de usuario no disponible");
+            }
 
-                        tvEmail.setText(email);
-                        tvInfo.setText(info);
-                    } else {
-                        Toast.makeText(getContext(), "No se encontraron datos para este usuario", Toast.LENGTH_SHORT).show();
-                    }
-                }
+            tvEmail.setText(email);
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(getContext(), "Error al cargar datos", Toast.LENGTH_SHORT).show();
-                }
-            });
+            if (photoUrl != null) {
+                Glide.with(this).load(photoUrl).into(ivProfileImage);
+            } else {
+                ivProfileImage.setImageResource(R.drawable.perfil);
+            }
+
+            // Obtener la fecha de creación del usuario
+            currentUser.getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            if (task.isSuccessful()) {
+                                GetTokenResult tokenResult = task.getResult();
+                                Map<String, Object> claims = tokenResult.getClaims();
+                                Object iatObj = claims.get("iat");
+                                if (iatObj != null) {
+                                    long creationTimestamp = 0;
+                                    if (iatObj instanceof Integer) {
+                                        creationTimestamp = (Integer) iatObj * 1000L;
+                                    } else if (iatObj instanceof Long) {
+                                        creationTimestamp = (Long) iatObj * 1000;
+                                    }
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                                    String creationDate = sdf.format(new Date(creationTimestamp));
+                                    tvCreationDate.setText(creationDate);
+                                }
+                            } else {
+                                Log.e("PerfilFragment", "Error al obtener el token de usuario", task.getException());
+                                Toast.makeText(getContext(), "Error al obtener la fecha de creación", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(getContext(), "No se encontraron datos para este usuario", Toast.LENGTH_SHORT).show();
         }
 
         btnLogout.setOnClickListener(v -> {
             mAuth.signOut();
-            Intent intent = new Intent(getActivity(), MainActivity.class);
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
             getActivity().finish();
         });
 
-        // Manejando cierre de sesion automático después de 2 horas
-        handler = new Handler();
-        logoutRunnable = () -> {
-            if (mAuth.getCurrentUser() != null) {
-                mAuth.signOut();
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        };
-        handler.postDelayed(logoutRunnable, 2 * 60 * 60 * 1000); // 2 horas en milisegundos
-
         return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        handler.removeCallbacks(logoutRunnable);
     }
 }

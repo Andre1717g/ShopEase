@@ -37,13 +37,24 @@
             android:src="@drawable/perfil" />
 
         <TextView
-            android:id="@+id/tv_email"
+            android:id="@+id/tv_email_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:text="Correo electrónico o usuario"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text=""
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:gravity="center"/>
     </LinearLayout>
 
     <!-- Sección de información adicional -->
@@ -57,15 +68,33 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-            android:id="@+id/tv_info_label"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/informaci_n_adicional"
-            android:textSize="18sp"
-            android:textColor="@android:color/black" />
+            android:layout_marginTop="8dp"
+            android:text="Nombre de usuario:"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tv_last_signin_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Fecha de inicio de sesión de usuario:"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_creation_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Fecha de creación:"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
 
     </LinearLayout>
-
 
     <!-- Botón de cerrar sesión -->
     <Button
